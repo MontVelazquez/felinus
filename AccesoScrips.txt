@@ -1,0 +1,48 @@
+﻿CREATE TABLE area (
+    id_area INT PRIMARY KEY,
+    nombre_area VARCHAR(100) NOT NULL
+);
+
+
+CREATE TABLE empleado (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    id_jefe INT,
+    nombre VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50) NOT NULL,
+    curp VARCHAR(18) UNIQUE NOT NULL,
+    id_area INT NOT NULL,
+    FOREIGN KEY (id_area) REFERENCES area(id_area),
+    FOREIGN KEY (id_jefe) REFERENCES empleado(id_empleado)
+);
+
+
+CREATE TABLE rol (
+    id_rol INT PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    contraseña VARCHAR(100) NOT NULL,
+    id_rol INT NOT NULL,
+    id_empleado INT NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+);
+
+
+CREATE TABLE permisos (
+    id_permiso INT PRIMARY KEY,
+    nombre_permiso VARCHAR(100) NOT NULL
+);
+
+
+CREATE TABLE detalles_permiso (
+    id_rol INT NOT NULL,
+    id_permiso INT NOT NULL,
+    PRIMARY KEY (id_rol, id_permiso),
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
+    FOREIGN KEY (id_permiso) REFERENCES permisos(id_permiso)
+);
